@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>💘 Te Amo - Matrix Love 💘</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+      font-family: 'Segoe UI Emoji', 'Noto Color Emoji', 'Arial', sans-serif;
+    }
+    canvas {
+      display: block;
+    }
+    h1 {
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #f0f;
+      font-family: monospace;
+      font-size: 2em;
+      z-index: 1;
+      text-shadow: 0 0 10px #f0f;
+    }
+    #mensaje {
+      position: absolute;
+      bottom: 80px;
+      width: 100%;
+      text-align: center;
+      color: #ff66cc;
+      font-size: 1.5em;
+      animation: aparecer 3s ease-in-out infinite alternate;
+    }
+    #amor-eterno {
+      position: absolute;
+      bottom: 40px;
+      width: 100%;
+      text-align: center;
+      color: #ffffff;
+      font-size: 1.2em;
+      font-style: italic;
+    }
+    @keyframes aparecer {
+      from { opacity: 0.3; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>💘 Matrix Love by Karli 💘</h1>
+  <div id="mensaje">“El amor también puede ser un código... y tú, la excepción más hermosa.”</div>
+  <div id="amor-eterno">Siempre serás mi amor eterno 💖</div>
+  <canvas id="matrix"></canvas>
+
+  <script>
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const letras = ["T", "E", " ", "A", "M", "O"];
+    const fontSize = 24;
+    const columns = canvas.width / fontSize;
+    const drops = Array.from({length: columns}).fill(1);
+
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#ff66cc";
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const letra = letras[Math.floor(Math.random() * letras.length)];
+        ctx.fillText(letra, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 50);
+
+    // Pirotecnia simple en forma de corazón
+    const fireCanvas = document.createElement("canvas");
+    fireCanvas.width = canvas.width;
+    fireCanvas.height = canvas.height;
+    fireCanvas.style.position = "absolute";
+    fireCanvas.style.top = "0";
+    fireCanvas.style.left = "0";
+    document.body.appendChild(fireCanvas);
+    const fctx = fireCanvas.getContext("2d");
+
+    function drawHeart(x, y, size, color) {
+      fctx.fillStyle = color;
+      fctx.beginPath();
+      fctx.moveTo(x, y);
+      fctx.bezierCurveTo(x, y - size / 2, x - size, y - size / 2, x - size, y);
+      fctx.bezierCurveTo(x - size, y + size, x, y + size * 1.5, x, y + size * 2);
+      fctx.bezierCurveTo(x, y + size * 1.5, x + size, y + size, x + size, y);
+      fctx.bezierCurveTo(x + size, y - size / 2, x, y - size / 2, x, y);
+      fctx.fill();
+    }
+
+    function fireworks() {
+      fctx.clearRect(0, 0, fireCanvas.width, fireCanvas.height);
+      for (let i = 0; i < 5; i++) {
+        const x = Math.random() * fireCanvas.width;
+        const y = Math.random() * fireCanvas.height / 2;
+        const size = 10 + Math.random() * 15;
+        drawHeart(x, y, size, `hsl(${Math.random() * 360}, 100%, 70%)`);
+      }
+    }
+
+    setInterval(fireworks, 2000);
+  </script>
+</body>
+</html>
